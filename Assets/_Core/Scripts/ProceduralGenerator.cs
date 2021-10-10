@@ -16,12 +16,17 @@ public class ProceduralGenerator : MonoBehaviour
     public float flattenLimit = 90f;
     public float elevation = 10f;
 
+    public MeshCollider collider = null;
+
     void Start()
     {
         // this.mesh = new Mesh();
         this.mesh = GenerateCircle(10, this.radius, this.elevation, this.flattenLimit);
-        
+        // this.collider.enabled = true;
         this.GetComponent<MeshFilter>().mesh = mesh;
+
+        this.GetComponent<MeshCollider>().sharedMesh = null;
+        this.GetComponent<MeshCollider>().sharedMesh = this.GetComponent<MeshFilter>().mesh;
 
         // CreateShape();
         // UpdateMesh();
@@ -126,6 +131,8 @@ public class ProceduralGenerator : MonoBehaviour
       m.SetTriangles(tris, 0);
       m.RecalculateNormals();
       m.UploadMeshData(true);
+      // this.collider = GetComponent<MeshCollider>();
+      // this.gameobject collider.enabled = true;
 
       // foreach(Vector3 vert in vtc) {
       //   DrawPrimitives.instance.DrawBall(vert, _radius / res / 10f, Color.red);

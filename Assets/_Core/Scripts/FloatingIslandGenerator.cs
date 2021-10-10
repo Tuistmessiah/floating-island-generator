@@ -18,7 +18,7 @@ public class FloatingIslandGenerator : MonoBehaviour
     public float interval = 5.0f;
 
     // TODO: Use in the future a quadrant system for performance
-    public List<GameObject> islandRefs = new List<GameObject>();
+    private List<GameObject> islandRefs = new List<GameObject>();
 
     void Start() {
       for(int i = 1; i <= this.numberOfIslands; i++) CreateIsland();
@@ -38,8 +38,9 @@ public class FloatingIslandGenerator : MonoBehaviour
       Vector3 newPosition = new Vector3(x, y, z);
 
       GameObject randomPrefab = this.floatingStructure[Random.Range(0, this.floatingStructure.Count)];
-      GameObject worldInstance = Instantiate(randomPrefab, newPosition, Quaternion.identity);
-      islandRefs.Add(worldInstance);
+      GameObject cloudInstance = Instantiate(randomPrefab, newPosition, Quaternion.identity);
+      cloudInstance.transform.SetParent(this.transform);
+      islandRefs.Add(cloudInstance);
 
       this.startingRadius += this.spawnDistance;
       this.angle += this.angleStep;
@@ -52,8 +53,9 @@ public class FloatingIslandGenerator : MonoBehaviour
       Vector3 newPosition = new Vector3(x, y, z);
 
       GameObject randomPrefab = this.floatingBiggerStructure[Random.Range(0, this.floatingBiggerStructure.Count)];
-      GameObject worldInstance = Instantiate(randomPrefab, newPosition, Quaternion.identity);
-      islandRefs.Add(worldInstance);
+      GameObject cloudInstance = Instantiate(randomPrefab, newPosition, Quaternion.identity);
+      cloudInstance.transform.SetParent(this.transform);
+      islandRefs.Add(cloudInstance);
 
       this.startingRadius += this.spawnDistance;
       this.angle += this.angleStep;     

@@ -18,7 +18,8 @@ public class RandomMovement : MonoBehaviour
     private Vector3 targetPos;
     private bool isStopping = false;
     private float speedMultiplier = 1f;
-    private float speedScale = 10f;
+    public float speedScale = 10f;
+    private float speedOnSize = 1f;
 
     // * Externals
 
@@ -37,6 +38,7 @@ public class RandomMovement : MonoBehaviour
     void Start() {
       this.wanderingCenter = this.transform.position;
       this.targetPos = this.transform.position;
+      this.speedOnSize /= Mathf.Min(this.transform.localScale.x, 1.0f);
     }
 
     void Update() {
@@ -50,7 +52,6 @@ public class RandomMovement : MonoBehaviour
         // Cruising
         if(dist > this.slowdownDistance) {
           velocity = Vector3.Normalize(this.targetPos - this.transform.position) * Time.deltaTime * this.speed;
-          Debug.Log(dist);
         }
         // Slowing
         else if(dist <= this.slowdownDistance && dist > this.minDistance) {
@@ -62,11 +63,9 @@ public class RandomMovement : MonoBehaviour
           SetDestiny();
         }
 
-        Debug.Log(velocity);
-
         // DrawPrimitives.instance.DrawRay(this.transform.position, this.transform.position + velocity * this.speedMultiplier * 1000f - this.transform.position, 0.1f);
         // DrawPrimitives.instance.DrawBall(this.transform.position + velocity * this.speedMultiplier * 1000f, 5f, Color.yellow);
-        this.transform.position += velocity / this.speedScale * this.speedMultiplier;
+        this.transform.position += velocity / this.speedScale * this.speedMultiplier * this.speedOnSize;
     }
 
     private void SetDestiny() {

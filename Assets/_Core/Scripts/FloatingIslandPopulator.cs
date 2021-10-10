@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class FloatingIslandPopulator : MonoBehaviour
 {
-  public int numberOfTries = 5;
-  public int numberOfElements = 1;
+  public int numberOfTries = 20;
+  public int numberOfStructureElements = 1;
+  public int numberOfContentElements = 1;
 
   public int structureNumber = 1;
   public int structureVariation = 0;
@@ -24,6 +25,7 @@ public class FloatingIslandPopulator : MonoBehaviour
   
   public GameObject structureTerrain;
   public List<GameObject> structureModels;
+  public List<GameObject> contentModels;
 
   private float surfaceRadius = 0.0f; 
 
@@ -48,9 +50,9 @@ public class FloatingIslandPopulator : MonoBehaviour
       Vector3 size = this.baseCollider.bounds.size;
       this.surfaceRadius = this.transform.localScale.x * size.x / 2;
 
-      // Invoke("CreateGround", 0.5f);
       Invoke("PopulateGround", 1.0f);
       Invoke("CreateGround", 1.0f);
+      Invoke("PopulateContent", 1.5f); 
   }
 
   void CreateGround() {
@@ -66,14 +68,15 @@ public class FloatingIslandPopulator : MonoBehaviour
     // GameObject terrainInstance = Instantiate(this.structureTerrain, this.transform.position, Quaternion.identity);
     // terrainInstance.GetComponent<ProceduralGenerator>().Initiate(this.surfaceRadius, 10f, 0.6f, new Vector3(.0f, .0f, .0f));
 
-    for (int i = 0; i < this.numberOfTries && instancedElements < this.numberOfElements; i++) {
+    // Populate "structure" assets
+    for (int i = 0; i < this.numberOfTries && instancedElements < this.numberOfStructureElements; i++) {
       float randX = Random.Range(this.transform.position.x - this.surfaceRadius, this.transform.position.x + this.surfaceRadius);
       float randZ = Random.Range(this.transform.position.z - this.surfaceRadius, this.transform.position.z + this.surfaceRadius);
 
       Vector3? tryGroundHit = GetGroundPosition(new Vector3(randX, this.transform.position.y, randZ));
       // DrawPrimitives.instance.DrawVerticalRay(new Vector3(randX, this.transform.position.y, randZ), 50.0f);
 
-      if(tryGroundHit is Vector3 groundHit){
+      if(tryGroundHit is Vector3 groundHit) {
           // DrawPrimitives.instance.DrawBall(groundHit, 10.0f);
 
           // int layerMask = LayerMask.GetMask("Structure");
@@ -92,7 +95,30 @@ public class FloatingIslandPopulator : MonoBehaviour
           } else {
             instancedElements++;
           }
+      }
+    }
+  }
 
+  void PopulateContent() {
+    int instancedElements = 0;
+
+    // Populate "content" assets
+    for (int i = 0; i < this.numberOfTries && instancedElements < this.numberOfContentElements; i++) {
+      float randX = Random.Range(this.transform.position.x - this.surfaceRadius, this.transform.position.x + this.surfaceRadius);
+      float randZ = Random.Range(this.transform.position.z - this.surfaceRadius, this.transform.position.z + this.surfaceRadius);
+
+      Vector3? tryGroundHit = IntersectWithVertical(new Vector3(randX, this.transform.position.y, randZ), "Terrain", true);
+
+      if(tryGroundHit is Vector3 groundHit) {
+        GameObject randomPrefab = this.contentModels[Random.Range(0, contentModels.Count)];
+        GameObject contentInstance = Instantiate(randomPrefab, groundHit, Quaternion.identity);
+        contentInstance.transform.localScale = new Vector3(10.0f, 10.0f, 10.0f);
+        contentInstance.transform.position = new Vector3(contentInstance.transform.position.x, 
+                                                          contentInstance.transform.position.y - 1.0f, 
+                                                          contentInstance.transform.position.z);
+        contentInstance.transform.SetParent(this.transform);
+
+        instancedElements++;
       }
     }
   }
@@ -179,7 +205,30 @@ public class FloatingIslandPopulator : MonoBehaviour
         // Debug.DrawRay(rayOrigin, rayDirection * hit.distance, Color.red, 5.0f);
         // if(layerInt != 3) return null;
         return hit.point;
-    } else {
+    }
+
+    return null;
+  }
+
+  // TODO: Make this as separate utils with all the overloads
+  private Vector3? IntersectWithVertical(Vector3 _newPos) {
+    return IntersectWithVertical(_newPos, "Ignore Raycast", false);
+  }
+
+  private Vector3? IntersectWithVertical(Vector3 _newPos, string _maskName, bool _inverted) {
+    int layerMask = LayerMask.GetMask(_maskName);
+    RaycastHit hit;
+    Vector3 rayDirection = new Vector3(0, -100, 0);
+    Vector3 rayOrigin = new Vector3(_newPos.x, _newPos.y + 50, _newPos.z);
+
+    // DrawPrimitives.instance.DrawRay(rayOrigin, rayDirection);
+
+    // TODO: Place this into an Utils class
+    if (Physics.Raycast (rayOrigin, rayDirection, out hit, Mathf.Infinity, layerMask)) {
+        // DrawPrimitives.instance.DrawBall(hit.point, 20.0f, Color.yellow);
+
+        // Debug.DrawRay(rayOrigin, rayDirection * hit.distance, Color.red, 5.0f);
+        return hit.point;
     }
 
     return null;

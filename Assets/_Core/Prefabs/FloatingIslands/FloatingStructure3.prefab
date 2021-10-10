@@ -49,8 +49,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d7c94b640992b140ba2e259e1cd9c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfTries: 10
-  numberOfElements: 3
+  numberOfTries: 80
+  numberOfStructureElements: 5
+  numberOfContentElements: 50
   structureNumber: 1
   structureVariation: 0
   positionOffset: {x: 0, y: 0, z: 0}
@@ -60,7 +61,7 @@ MonoBehaviour:
   scaleOffset: {x: 9, y: 6, z: 9}
   scaleVariation: {x: 4, y: 1, z: 4}
   isXZSymmetrical: 1
-  baseCollider: {fileID: 0}
+  baseCollider: {fileID: 6196444976167953475}
   structureTerrain: {fileID: 5909668445295005984, guid: 27c60b787c492cb4dbb9446ecf1aefe5, type: 3}
   structureModels:
   - {fileID: 8402614890987163458, guid: 169e5f050a9f145489237cc7105f3c1d, type: 3}
@@ -68,6 +69,22 @@ MonoBehaviour:
   - {fileID: 4894849518924458267, guid: dc53baa962b6d244cb9e81ec33c0865a, type: 3}
   - {fileID: 8944619187265165564, guid: c2cb5e8a081a26c4a94df01eb6c4e44c, type: 3}
   - {fileID: 2277020209693313120, guid: 2e56899687a42f54aa20a3b27f073806, type: 3}
+  contentModels:
+  - {fileID: 522459008932986039, guid: 23bd600a3424d9e44ac451d447977c93, type: 3}
+  - {fileID: 385491262653265843, guid: 1ac31fb474aead74ab0101d0d6546c52, type: 3}
+  - {fileID: 3117357111836234255, guid: 5ad0841d147e6664f9ee38e733624608, type: 3}
+  - {fileID: 7405846476849542632, guid: c6308cb7062fac34e8e50600086b12a1, type: 3}
+  - {fileID: 5202732821079448320, guid: cebfacc247a640945a2c30b442202fca, type: 3}
+  - {fileID: 8783306491908617939, guid: f02116c209ecd9e488fc4d2cd8996133, type: 3}
+  - {fileID: 108507113624723981, guid: eebb56c82efbd8d4bb0eb6bd925a0e9d, type: 3}
+  - {fileID: 1026458569961160598, guid: 292c1954f8e2fd748857db06683062fb, type: 3}
+  - {fileID: 455957966157313408, guid: decec03a9de484948b79da6219847d52, type: 3}
+  - {fileID: 4114348814130154171, guid: c185f4228ecc7b14cb47ae816197d6b4, type: 3}
+  - {fileID: 1026458569961160598, guid: 292c1954f8e2fd748857db06683062fb, type: 3}
+  - {fileID: 455957966157313408, guid: decec03a9de484948b79da6219847d52, type: 3}
+  - {fileID: 283491861412978150, guid: d85f77d368a7cb74d88aeccc3c5a5348, type: 3}
+  - {fileID: 8783306491908617939, guid: f02116c209ecd9e488fc4d2cd8996133, type: 3}
+  - {fileID: 4680757731160225450, guid: 0fde05fa0f3321942a21896ff4f0856f, type: 3}
 --- !u!114 &5244736510621321761
 MonoBehaviour:
   m_ObjectHideFlags: 0

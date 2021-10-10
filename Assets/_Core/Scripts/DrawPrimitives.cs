@@ -80,6 +80,7 @@ public class DrawPrimitives : MonoBehaviour
         }
     }
 
+    // TODO: Call DrawRay overloads with a single DrawRay function with all the parameters
     public void DrawRay(Vector3 _newPosition, Vector3 _direction)
     {
         if (this.isOn)
